@@ -19,13 +19,13 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
     private final AuthService authService;
 
-    @PostMapping("singUp")
+    @PostMapping("signUp")
     public ResponseEntity<Response> singUp(@Valid @RequestBody final SingUpRequest req) {
 
         return authService.signUp(req);
     }
 
-    @PostMapping("singIn")
+    @PostMapping("signIn")
     public ResponseEntity<Response> singIn(@Valid @RequestBody final SingInRequest req) {
 
         return authService.signIn(req);
