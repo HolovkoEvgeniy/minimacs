@@ -1,0 +1,8 @@
+.idea/
+sandbox/
+target/
+.env
+postgres/data/
+/minimacs/minimacs.iml
+/sources/src/main/resources/application-dev.yml
+

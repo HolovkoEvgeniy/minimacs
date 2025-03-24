@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  minimacs:
+    build:
+      context: ./sources/
+    container_name: minimacs
+    image: lumiring/minimacs:prod
+    env_file:
+      - .env
+
+    networks:
+      static-network:
+        ipv4_address: ${DOCKER_SUBNET}2
+    environment:
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      SERVER_PORT: ${SERVER_PORT}
+      APP_ADMIN_USERNAME: ${MINIMACS_APP_ADMIN_USERNAME}
+      APP_ADMIN_PASSWORD: ${MINIMACS_APP_ADMIN_PASSWORD}
+      APP_ADMIN_EMAIL: ${MINIMACS_APP_ADMIN_EMAIL}
+      JAVA_TOOL_OPTIONS: >
+        -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:${DEBUG_PORT}
+    restart: always
+    ports:
+      - 127.0.0.1:${SERVER_PORT}:${SERVER_PORT}
+      - ${INTERNAL_IP}:${SERVER_PORT}:${SERVER_PORT}
+      - 127.0.0.1:${DEBUG_PORT}:${DEBUG_PORT}
+    depends_on:
+      - postgres
+
+  postgres:
+    container_name: postgres
+    image: postgres:16
+    networks:
+      static-network:
+        ipv4_address: ${DOCKER_SUBNET}3
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    restart: always
+    ports:
+      - 127.0.0.1:${DB_PORT}:${DB_PORT}
+    volumes:
+      - ./postgres/data:/var/lib/postgresql/data
+      - ./postgres/init-scripts:/docker-entrypoint-initdb.d
+
+
+networks:
+  static-network:
+    ipam:
+      config:
+        - subnet: ${DOCKER_SUBNET}0/24
+
