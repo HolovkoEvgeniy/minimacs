@@ -3,7 +3,7 @@
 ## 1.1. Зарегистрировать нового пользователя 
 
 ## POST
-#####  /api/v1/auth/singUp
+#####  /api/v1/auth/signUp
 ### Request
 ##### body:
 
@@ -50,7 +50,7 @@ password >= 8 символов, <= 100 символов, разрешенные 
 ## 1.2. Авторизация пользователя в системе
 
 ## POST
-#####  /api/v1/auth/singIn
+#####  /api/v1/auth/signIn
 ### Request
 ##### body:
 

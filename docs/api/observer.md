@@ -4,7 +4,7 @@
 
 ### POST
 
-##### /api/v1/auth/singIn
+##### /api/v1/auth/signIn
 
 ##### body:
 
